@@ -1,0 +1,54 @@
+{
+  "name": "Habit Tracker",
+  "author": "erimow",
+  "version": "0.1.0",
+  "keywords": ["pebble-app"],
+  "private": true,
+  "dependencies": {},
+  "pebble": {
+    "displayName": "Habit Tracker",
+    "uuid": "cd317750-4fe2-44f6-973a-29e75a5cdba5",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "chalk",
+      "diorite"
+    ],
+    "watchapp": {
+      "watchface": false
+    },
+    "messageKeys": [
+      "dummy"
+    ],
+    "resources": {
+      "media": [{
+      	"type": "bitmap",
+      	"name": "IMAGE_CHECK",
+      	"file": "Check.png"
+      },
+      {
+      	"type": "bitmap",
+      	"name": "IMAGE_CHECKWHITE",
+      	"file": "CheckWhite.png"
+      },
+      {
+      	"type": "bitmap",
+      	"name": "IMAGE_UNCHECKWHITE",
+      	"file": "UncheckWhite.png"
+      },
+      {
+      	"type": "bitmap",
+      	"name": "IMAGE_UNCHECK",
+      	"file": "Uncheck.png"
+      },
+      {
+        "menuIcon": true,
+      	"type": "bitmap",
+      	"name": "IMAGE_NOTEBOOK",
+      	"file": "notebook.png"
+      }]
+    }
+  }
+}

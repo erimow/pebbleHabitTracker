@@ -1,0 +1,57 @@
+{
+    "targetPlatforms": [
+        "aplite", 
+        "basalt", 
+        "chalk", 
+        "diorite"
+    ], 
+    "displayName": "Habit Tracker", 
+    "name": "Habit Tracker", 
+    "messageKeys": {
+        "dummy": 10000
+    }, 
+    "companyName": "erimow", 
+    "enableMultiJS": true, 
+    "versionLabel": "0.1", 
+    "capabilities": [], 
+    "sdkVersion": "3", 
+    "appKeys": {
+        "dummy": 10000
+    }, 
+    "longName": "Habit Tracker", 
+    "shortName": "Habit Tracker", 
+    "watchapp": {
+        "watchface": false
+    }, 
+    "resources": {
+        "media": [
+            {
+                "type": "bitmap", 
+                "name": "IMAGE_CHECK", 
+                "file": "Check.png"
+            }, 
+            {
+                "type": "bitmap", 
+                "name": "IMAGE_CHECKWHITE", 
+                "file": "CheckWhite.png"
+            }, 
+            {
+                "type": "bitmap", 
+                "name": "IMAGE_UNCHECKWHITE", 
+                "file": "UncheckWhite.png"
+            }, 
+            {
+                "type": "bitmap", 
+                "name": "IMAGE_UNCHECK", 
+                "file": "Uncheck.png"
+            }, 
+            {
+                "menuIcon": true, 
+                "type": "bitmap", 
+                "name": "IMAGE_NOTEBOOK", 
+                "file": "notebook.png"
+            }
+        ]
+    }, 
+    "uuid": "cd317750-4fe2-44f6-973a-29e75a5cdba5"
+}
