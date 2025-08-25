@@ -1,7 +1,7 @@
 {
   "name": "Habit Tracker",
   "author": "erimow",
-  "version": "0.1.0",
+  "version": "0.6.0",
   "keywords": ["pebble-app"],
   "private": true,
   "dependencies": {},
@@ -42,6 +42,21 @@
       	"type": "bitmap",
       	"name": "IMAGE_UNCHECK",
       	"file": "Uncheck.png"
+      },
+      {
+        "type": "bitmap",
+          "name": "IMAGE_CLOCK",
+          "file": "Clock.png"
+      },
+      {
+      	"type": "bitmap",
+      	"name": "IMAGE_DONE",
+      	"file": "Done.png"
+      },
+      {
+      	"type": "bitmap",
+      	"name": "IMAGE_TRASH",
+      	"file": "Trash.png"
       },
       {
         "menuIcon": true,

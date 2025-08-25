@@ -12,7 +12,7 @@
     }, 
     "companyName": "erimow", 
     "enableMultiJS": true, 
-    "versionLabel": "0.1", 
+    "versionLabel": "0.6", 
     "capabilities": [], 
     "sdkVersion": "3", 
     "appKeys": {
@@ -44,6 +44,21 @@
                 "type": "bitmap", 
                 "name": "IMAGE_UNCHECK", 
                 "file": "Uncheck.png"
+            }, 
+            {
+                "type": "bitmap", 
+                "name": "IMAGE_CLOCK", 
+                "file": "Clock.png"
+            }, 
+            {
+                "type": "bitmap", 
+                "name": "IMAGE_DONE", 
+                "file": "Done.png"
+            }, 
+            {
+                "type": "bitmap", 
+                "name": "IMAGE_TRASH", 
+                "file": "Trash.png"
             }, 
             {
                 "menuIcon": true, 

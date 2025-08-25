@@ -5,11 +5,15 @@
 static Window *s_window;
 //static TextLayer *s_text_layer;
 static MenuLayer *s_menu_layer;
+static ActionBarLayer *s_action_bar_layer;
 static DictationSession *s_dictation_session;
 static GBitmap *checkImage;
 static GBitmap *uncheckImage;
 static GBitmap *whitecheckImage;
 static GBitmap *whiteuncheckImage;
+static GBitmap *doneImage;
+static GBitmap *trashImage;
+static GBitmap *clockImage;
 static uint16_t dayofyear, prev_dayofyear;
 
 #define BUFFER_LENGTH 32
@@ -133,18 +137,44 @@ static void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, v
  // APP_LOG(APP_LOG_LEVEL_DEBUG, "button pressed\n");
 }
 
-// static void prv_select_click_handler(ClickRecognizerRef recognizer, void *context) {
-//   // text_layer_set_text(s_text_layer, "Select");
-// }
-//
-// static void prv_up_click_handler(ClickRecognizerRef recognizer, void *context) {
-//   // text_layer_set_text(s_text_layer, "Up");
-// }
-//
-// static void prv_down_click_handler(ClickRecognizerRef recognizer, void *context) {
-//   // text_layer_set_text(s_text_layer, "Down");
-// }
-//
+
+
+static void prv_down_click_handler(ClickRecognizerRef recognizer, void *context) { // delete
+  uint8_t row = menu_layer_get_selected_index(s_menu_layer).row;
+  for (int i = row-1; i<num_habits-1; i++){
+    trackerList[i] = trackerList[i+1];
+  }
+  num_habits--;
+  save_state(); //save just cuz
+  if (row-1 > num_habits)menu_layer_set_selected_next(s_menu_layer, MenuRowAlignNone, true, true);
+  action_bar_layer_remove_from_window(s_action_bar_layer);
+  menu_layer_set_click_config_onto_window(s_menu_layer, s_window);
+  menu_layer_reload_data(s_menu_layer);
+  layer_mark_dirty(menu_layer_get_layer(s_menu_layer)); // Refresh display
+}
+
+static void prv_up_click_handler(ClickRecognizerRef recognizer, void *context) {
+}
+
+static void prv_select_click_handler(ClickRecognizerRef recognizer, void *context){
+  action_bar_layer_remove_from_window(s_action_bar_layer);
+  menu_layer_set_click_config_onto_window(s_menu_layer, s_window);
+}
+
+void action_bar_click_config_provider(void *context) { //
+  window_single_click_subscribe(BUTTON_ID_DOWN, (ClickHandler) prv_down_click_handler);
+  window_single_click_subscribe(BUTTON_ID_UP, (ClickHandler) prv_up_click_handler);
+  window_single_click_subscribe(BUTTON_ID_SELECT, (ClickHandler) prv_select_click_handler);
+}
+
+static void menu_select_long_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *context){ //PULLS UP ACTION BAR
+  if (cell_index->row != 0){
+    action_bar_layer_add_to_window(s_action_bar_layer, s_window);
+    action_bar_layer_set_click_config_provider(s_action_bar_layer,
+                                             action_bar_click_config_provider);
+  }
+}
+
 // static void prv_click_config_provider(void *context) {
 //   // window_single_click_subscribe(BUTTON_ID_SELECT, prv_select_click_handler);
 //   // window_single_click_subscribe(BUTTON_ID_UP, prv_up_click_handler);
@@ -165,16 +195,25 @@ static void prv_window_load(Window *window) {
   uncheckImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_UNCHECK);
   whitecheckImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_CHECKWHITE);
   whiteuncheckImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_UNCHECKWHITE);
+  doneImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_DONE);
+  trashImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TRASH);
+  clockImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_CLOCK);
 
   s_menu_layer = menu_layer_create(bounds);
   menu_layer_set_click_config_onto_window(s_menu_layer, window);
   menu_layer_set_callbacks(s_menu_layer, NULL, (MenuLayerCallbacks) {
     .get_num_rows = menu_get_num_rows_callback,
     .draw_row = menu_draw_row_callback,
-    .select_click = menu_select_callback,
+    .select_long_click = menu_select_long_callback,
+    .select_click = menu_select_callback
   });
 
   layer_add_child(window_layer, menu_layer_get_layer(s_menu_layer));
+
+  s_action_bar_layer = action_bar_layer_create();
+  action_bar_layer_set_icon_animated(s_action_bar_layer, BUTTON_ID_UP, clockImage, true);
+  action_bar_layer_set_icon_animated(s_action_bar_layer, BUTTON_ID_DOWN, trashImage, true);
+  action_bar_layer_set_icon_animated(s_action_bar_layer, BUTTON_ID_SELECT, doneImage, true);
 }
 
 static void prv_window_unload(Window *window) {
@@ -183,6 +222,10 @@ static void prv_window_unload(Window *window) {
   gbitmap_destroy(uncheckImage);
   gbitmap_destroy(whitecheckImage);
   gbitmap_destroy(whiteuncheckImage);
+  gbitmap_destroy(doneImage);
+  gbitmap_destroy(trashImage);
+  gbitmap_destroy(clockImage);
+  action_bar_layer_destroy(s_action_bar_layer);
 }
 
 static void prv_init(void) {
